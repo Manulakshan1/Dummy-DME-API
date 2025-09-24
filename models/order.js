@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { OrderStatus } from "../constants/orderStatus.js";
 const AddressSchema = new mongoose.Schema({
   street: String,
   city: String,
@@ -23,6 +23,8 @@ const OrderItemSchema = new mongoose.Schema({
 }, { _id: false });
 
 const OrderSchema = new mongoose.Schema({
+  dme_id: { type: mongoose.Schema.Types.ObjectId, ref: "DME", required: true },
+
   general_information: {
     patient_id: { type: String, required: true },
     patient_mrn: String,
@@ -54,9 +56,8 @@ const OrderSchema = new mongoose.Schema({
     validate: v => Array.isArray(v) && v.length > 0
   },
   status: {
-    type: String,
-    enum: ["received", "validated", "routed", "submitted", "fulfilled", "cancelled"],
-    default: "received"
+    code: { type: Number, default: OrderStatus.INTAKE_SUCCESSFUL.code },
+    message: { type: String, default: OrderStatus.INTAKE_SUCCESSFUL.message }
   }
 }, { timestamps: true });
 

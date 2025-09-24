@@ -2,7 +2,7 @@ import express from "express";
 import Order from "../models/order.js";
 import { authRequired } from "../middleware/auth.js";
 import { orderSchema } from "../validate.js";
-import { STATUS_MAPPING, DEFAULT_STATUS } from "../constants/orderStatus.js";
+import { OrderStatus, DEFAULT_STATUS } from "../constants/orderStatus.js";
 
 
 const router = express.Router();
@@ -23,6 +23,10 @@ router.post("/", authRequired, async (req, res) => {
     }
 
     // 2) Normalize (e.g., uppercase HCPCS codes already handled by Joi uppercase + Mongoose uppercase)
+    if (!value.dme_id) {
+      return res.status(400).json({ message: "dme_id is required" });
+    }
+    value.status = OrderStatus.INTAKE_SUCCESSFUL;
 
     // 3) Insert into DB
     const order = await Order.create(value);
@@ -55,19 +59,17 @@ router.get("/:id", async (req, res) => {
 });
 
 // GET /api/orders/:id/status
-router.get("/:id/status", authRequired, async (req, res) => {
+router.get("/status/:id", authRequired, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).lean();
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    const mappedStatus = STATUS_MAPPING[order.status] || DEFAULT_STATUS;
 
     return res.json({
       order_id: order._id,
-      status: order.status,        // original status string
-      mappedStatus                 // standardized code + message
+      status: order.status || DEFAULT_STATUS,        // original status string
     });
 
   } catch (err) {
@@ -76,21 +78,20 @@ router.get("/:id/status", authRequired, async (req, res) => {
   }
 });
 
-// PATCH /api/orders/:id/status
-router.patch("/:id/status", authRequired, async (req, res) => {
+// PATCH /api/orders/:id
+router.patch("/:id", authRequired, async (req, res) => {
   try {
-    const { status } = req.body;
+    const { statusKey } = req.body;
 
     // Allowed statuses
-    const validStatuses = ["received", "validated", "routed", "submitted", "fulfilled", "cancelled"];
-    if (!validStatuses.includes(status)) {
-      return res.status(400).json({ message: "Invalid status value" });
+    if (!OrderStatus[statusKey]) {
+      return res.status(400).json({ message: "Invalid status key" });
     }
 
     // Update order
     const order = await Order.findByIdAndUpdate(
       req.params.id,
-      { status },
+      { status: OrderStatus[statusKey] },
       { new: true }
     ).lean();
 
@@ -101,7 +102,7 @@ router.patch("/:id/status", authRequired, async (req, res) => {
     return res.json({
       message: "Order status updated",
       order_id: order._id,
-      new_status: order.status
+      status: order.status
     });
   } catch (err) {
     console.error("Update status error:", err);
@@ -109,5 +110,14 @@ router.patch("/:id/status", authRequired, async (req, res) => {
   }
 });
 
+router.get("/dme/:dmeId", authRequired, async (req, res) => {
+  try {
+    const orders = await Order.find({ dme_id: req.params.dmeId }).lean();
+    res.json(orders);
+  } catch (err) {
+    console.error("Error fetching orders for DME:", err);
+    res.status(500).json({ message: "Error fetching orders" });
+  }
+});
 
 export default router;

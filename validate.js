@@ -1,6 +1,21 @@
 import Joi from "joi";
+import mongoose from "mongoose";
+import { OrderStatus } from "./constants/orderStatus.js";
+
+// Extract valid keys from OrderStatus at the top
+const validStatusKeys = Object.keys(OrderStatus);
+
+
 
 export const orderSchema = Joi.object({
+ dme_id: Joi.string()
+    .custom((value, helpers) => {
+      if (!mongoose.Types.ObjectId.isValid(value)) {
+        return helpers.error("any.invalid");
+      }
+      return value;
+    })
+    .required(),
   general_information: Joi.object({
     patient_id: Joi.string().required(),
     patient_mrn: Joi.string().optional(),
@@ -61,5 +76,7 @@ export const orderSchema = Joi.object({
     })
   ).min(1).required(),
 
-  status: Joi.string().valid("received","validated","routed","submitted","fulfilled","cancelled").optional()
+  status: Joi.string().valid(...validStatusKeys).optional()
+
+
 });

@@ -8,6 +8,7 @@ dotenv.config();
 
 import ordersRouter from "./routes/orders.js";
 import authRouter from "./routes/auth.js";
+import dmesRouter from "./routes/dmes.js";
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/dmes", dmesRouter);
+
 
 async function start() {
   try {
