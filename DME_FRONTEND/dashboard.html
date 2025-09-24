@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DME Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <header>
+    <h1>DME Dashboard</h1>
+    <div>
+      <button onclick="location.href='dme-create.html'">+ Add DME</button>
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+  </header>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="dmeTableBody"></tbody>
+  </table>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

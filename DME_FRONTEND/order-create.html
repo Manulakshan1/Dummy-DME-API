@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Order</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Create Order</h1>
+  <form id="orderForm">
+    <input type="text" id="patientName" placeholder="Patient Name" required><br>
+    <input type="date" id="dob" required><br>
+    <input type="text" id="hcpcs" placeholder="HCPCS Code" required><br>
+    <input type="number" id="quantity" placeholder="Quantity" required><br>
+    <button type="submit">Submit</button>
+  </form>
+  <button onclick="history.back()">Back</button>
+
+  <script src="js/order-create.js"></script>
+</body>
+</html>
