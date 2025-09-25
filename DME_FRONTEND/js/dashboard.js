@@ -16,16 +16,19 @@ async function loadDMEs() {
       <td>${dme.name}</td>
       <td>${new Date(dme.createdAt).toLocaleDateString()}</td>
       <td>
-        <button onclick="viewOrders('${dme._id}')">View Orders</button>
+         <button onclick="viewOrders('${dme._id}', '${encodeURIComponent(dme.name)}')">View Orders</button>
       </td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-function viewOrders(dmeId) {
-  window.location.href = `orders.html?dmeId=${dmeId}`;
+function viewOrders(dmeId, dmeName) {
+  const cleanName = decodeURIComponent(dmeName);
+  const dme = dmeName.replace(/\s+/g, "-").toLowerCase();
+  window.location.href = `orders.html?dmeId=${dmeId}&dme=${dme}`;
 }
+
 
 loadDMEs();
 
