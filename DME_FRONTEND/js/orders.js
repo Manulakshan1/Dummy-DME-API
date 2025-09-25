@@ -1,23 +1,11 @@
 const API = "http://localhost:4000/api";
 const token = localStorage.getItem("token");
 
-// Parse URL params
 const urlParams = new URLSearchParams(window.location.search);
-const dmeId = urlParams.get("dmeId");   // still needed for API call
-const slug = urlParams.get("slug");     // new: human-friendly DME name
+const dmeId = urlParams.get("dmeId");
 
-// Update page header with slug (pretty name)
-if (slug) {
-  const header = document.querySelector("h1");
-  if (header) {
-    header.textContent = `${slug.replace(/-/g, " ")} - Orders`;
-  }
-}
-
-// Handle create order button
 document.getElementById("createOrderBtn").addEventListener("click", () => {
-  // Preserve both ID + slug when creating an order
-  window.location.href = `order-create.html?dmeId=${dmeId}&slug=${slug}`;
+  window.location.href = `order-create.html?dmeId=${dmeId}`;
 });
 
 async function loadOrders() {
@@ -44,18 +32,24 @@ async function loadOrders() {
       "ORDER_PREPARING",
       "ORDER_SHIPPED",
       "ORDER_DELIVERED",
+      "ORDER_REJECTED_BY_DME",
       "NOT_AVAILABLE",
       "ORDER_FLOW_ERROR"
+
     ];
 
-    // Dropdown for status
+    // Create dropdown
     const select = document.createElement("select");
     statusOptions.forEach(opt => {
       const option = document.createElement("option");
       option.value = opt;
       option.textContent = opt;
 
-      const currentStatusKey = order.status?.replace(/\s+/g, "_").toUpperCase();
+      // 🔑 Normalize backend "Order Shipped" → "ORDER_SHIPPED"
+      const currentStatusKey = order.status?.message
+        ?.replace(/\s+/g, "_")
+        .toUpperCase();
+
       if (currentStatusKey === opt) {
         option.selected = true;
       }
@@ -73,10 +67,12 @@ async function loadOrders() {
         },
         body: JSON.stringify({ statusKey: select.value })
       });
-      loadOrders(); // refresh table
+
+      // Refresh table after update
+      loadOrders();
     });
 
-    // Build row
+    // Table row
     tr.innerHTML = `
       <td>${order.general_information?.patient_name || "-"}</td>
       <td>${order.items?.[0]?.hcpcs_code || "-"}</td>

@@ -25,8 +25,8 @@ async function loadDMEs() {
 
 function viewOrders(dmeId, dmeName) {
   const cleanName = decodeURIComponent(dmeName);
-  const slug = dmeName.replace(/\s+/g, "-").toLowerCase();
-  window.location.href = `orders.html?dmeId=${dmeId}&slug=${slug}`;
+  const dme = dmeName.replace(/\s+/g, "-").toLowerCase();
+  window.location.href = `orders.html?dmeId=${dmeId}&dme=${dme}`;
 }
 
 
