@@ -21,10 +21,6 @@ async function loadOrders() {
     const tr = document.createElement("tr");
 
     const statusOptions = [
-      "INTAKE_SUCCESSFUL",
-      "INTAKE_FAILED",
-      "DME_FOUND",
-      "DME_NOT_FOUND",
       "ORDER_ACCEPTED_BY_DME",
       "ORDER_REJECTED_BY_DME",
       "ORDER_TRANSMISSION_TO_DME_ERROR",
