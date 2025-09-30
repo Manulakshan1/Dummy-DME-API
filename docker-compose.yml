@@ -1,3 +1,4 @@
+
 services:
   mongo:
     image: mongo:6
@@ -5,9 +6,6 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - mongo_data:/data/db
 
@@ -21,7 +19,6 @@ services:
       - "4000:4000"
     env_file:
       - ./.env
-    command: /bin/sh -c "sleep 10 && node index.js"
 
   frontend:
     build: ./DME_FRONTEND
