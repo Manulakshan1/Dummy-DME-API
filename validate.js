@@ -9,10 +9,10 @@ const validStatusKeys = Object.keys(OrderStatus);
 
 export const orderSchema = Joi.object({
   general_information: Joi.object({
-    patient_id: Joi.string().required(),
+    patient_id: Joi.string().optional(),
     patient_mrn: Joi.string().optional(),
-    practice_id: Joi.string().required(),
-    patient_name: Joi.string().required(),
+    practice_id: Joi.string().optional(),
+    patient_name: Joi.string().optional(),
     practice_name: Joi.string().optional(),
     provider_name: Joi.string().optional(),
     practice_email: Joi.string().email().optional(),
@@ -24,11 +24,11 @@ export const orderSchema = Joi.object({
       state: Joi.string(),
       zip: Joi.string()
     }).optional()
-  }).required(),
+  }).optional(),
 
   patient_details: Joi.object({
-    date_of_birth: Joi.date().iso().required(),
-    gender: Joi.string().valid("Male","Female","Other").required(),
+    date_of_birth: Joi.date().iso().optional(),
+    gender: Joi.string().valid("Male","Female","Other").optional(),
     phone_number: Joi.string().optional(),
     address: Joi.object({
       street: Joi.string(),
@@ -50,7 +50,7 @@ export const orderSchema = Joi.object({
       groupNumber: Joi.string(),
       type: Joi.string()
     }).optional()
-  }).required(),
+  }).optional(),
 
   order_meta: Joi.object({
     requested_date: Joi.date().iso().optional(),
@@ -61,12 +61,12 @@ export const orderSchema = Joi.object({
 
   items: Joi.array().items(
     Joi.object({
-      product_name: Joi.string().required(),
-      hcpcs_code: Joi.string().trim().uppercase().required(),
-      quantity: Joi.number().integer().min(1).required(),
+      product_name: Joi.string().optional(),
+      hcpcs_code: Joi.string().trim().uppercase().optional(),
+      quantity: Joi.number().integer().min(1).optional(),
       notes: Joi.string().allow("").optional()
     })
-  ).min(1).required(),
+  ).min(1).optional(),
 
   status: Joi.string().valid(...validStatusKeys).optional()
 
