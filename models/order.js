@@ -16,9 +16,9 @@ const InsuranceSchema = new mongoose.Schema({
 }, { _id: false });
 
 const OrderItemSchema = new mongoose.Schema({
-  product_name: { type: String, required: true },
-  hcpcs_code:   { type: String, required: true, uppercase: true, trim: true },
-  quantity:     { type: Number, required: true, min: 1 },
+  product_name: { type: String, required: false },
+  hcpcs_code:   { type: String, required: false, uppercase: true, trim: true },
+  quantity:     { type: Number, required: false, min: 1 },
   notes:        { type: String }
 }, { _id: false });
 
@@ -26,10 +26,10 @@ const OrderSchema = new mongoose.Schema({
   dme_id: { type: mongoose.Schema.Types.ObjectId, ref: "DME", required: false },
 
   general_information: {
-    patient_id: { type: String, required: true },
+    patient_id: { type: String, required: false },
     patient_mrn: String,
-    practice_id: { type: String, required: true },
-    patient_name: { type: String, required: true },
+    practice_id: { type: String, required: false },
+    patient_name: { type: String, required: false },
     practice_name: String,
     provider_name: String,
     practice_email: String,
@@ -38,8 +38,8 @@ const OrderSchema = new mongoose.Schema({
     practice_address: AddressSchema
   },
   patient_details: {
-    date_of_birth: { type: Date, required: true },
-    gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
+    date_of_birth: { type: Date, required: false },
+    gender: { type: String, enum: ["Male", "Female", "Other"], required: false },
     phone_number: String,
     address: AddressSchema,
     primary_insurance: InsuranceSchema,

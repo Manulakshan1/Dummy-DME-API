@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const dmeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: false },
   contact_email: { type: String },
   created_by: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   createdAt: { type: Date, default: Date.now }
