@@ -1,4 +1,4 @@
-const API_BASE = "http://54.214.90.133:4000/api"; // change if backend runs elsewhere
+const API_BASE = "http://52.33.189.195:4000/api"; // change if backend runs elsewhere
 
 export async function apiRequest(endpoint, method = "GET", body = null, auth = true) {
   const headers = { "Content-Type": "application/json" };

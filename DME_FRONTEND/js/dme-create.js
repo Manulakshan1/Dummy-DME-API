@@ -16,7 +16,7 @@ document.getElementById("dmeForm").addEventListener("submit", async (e) => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://54.214.90.133:4000/api/dmes", {
+    const res = await fetch("http://52.33.189.195:4000/api/dmes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

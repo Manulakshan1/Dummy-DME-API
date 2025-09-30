@@ -1,4 +1,4 @@
-const API = "http://54.214.90.133:4000/api";
+const API = "http://52.33.189.195:4000/api";
 
 document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
