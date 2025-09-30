@@ -8,14 +8,6 @@ const validStatusKeys = Object.keys(OrderStatus);
 
 
 export const orderSchema = Joi.object({
- dme_id: Joi.string()
-    .custom((value, helpers) => {
-      if (!mongoose.Types.ObjectId.isValid(value)) {
-        return helpers.error("any.invalid");
-      }
-      return value;
-    })
-    .required(),
   general_information: Joi.object({
     patient_id: Joi.string().required(),
     patient_mrn: Joi.string().optional(),

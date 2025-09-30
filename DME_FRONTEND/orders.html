@@ -2,31 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DME Orders</title>
+  <title>All Orders</title>
   <link rel="stylesheet" href="css/orders.css">
 </head>
 <body>
   <header>
-    <h1>Orders</h1>
-    <button onclick="window.location.href='dashboard.html'">Back</button>
-    <button id="logoutBtn" class="btn">Logout</button>
+    <h1>All Orders</h1>
+    <div>
+      <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button id="createOrderBtn">+ Create Order</button>
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
   </header>
 
   <main>
-    <button id="createOrderBtn">+ Create Order</button>
-    <table>
-      <thead>
-        <tr>
-          <th>Patient</th>
-          <th>HCPCS</th>
-          <th>Qty</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="orderTableBody">
-        <!-- Filled by JS -->
-      </tbody>
-    </table>
+    <div class="orders-header">
+      <h2>Order Management</h2>
+      <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search by patient name, HCPCS, or practice...">
+        <select id="statusFilter">
+          <option value="">All Statuses</option>
+          <option value="ORDER_ACCEPTED_BY_DME">Order Accepted by DME</option>
+          <option value="ORDER_REJECTED_BY_DME">Order Rejected by DME</option>
+          <option value="ORDER_TRANSMISSION_TO_DME_ERROR">Transmission Error</option>
+          <option value="DME_PARTNER_NOT_RESPONDING">DME Not Responding</option>
+          <option value="ORDER_PREPARING">Order Preparing</option>
+          <option value="ORDER_SHIPPED">Order Shipped</option>
+          <option value="ORDER_DELIVERED">Order Delivered</option>
+          <option value="NOT_AVAILABLE">Not Available</option>
+          <option value="ORDER_FLOW_ERROR">Order Flow Error</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Patient Name</th>
+            <th>Practice</th>
+            <th>HCPCS Code</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Status</th>
+            <th>Created Date</th>
+          </tr>
+        </thead>
+        <tbody id="orderTableBody">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </div>
+    
+    <div id="loadingMessage" class="loading">Loading orders...</div>
+    <div id="noOrdersMessage" class="no-orders" style="display: none;">No orders found.</div>
   </main>
 
   <script src="js/orders.js"></script>
