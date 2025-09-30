@@ -1,4 +1,4 @@
-const API = "http://localhost:4000/api";
+const API = "http://54.214.90.133:4000/api";
 const token = localStorage.getItem("token");
 
 const urlParams = new URLSearchParams(window.location.search);
