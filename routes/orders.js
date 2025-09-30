@@ -23,9 +23,9 @@ router.post("/", authRequired, async (req, res) => {
     }
 
     // 2) Normalize (e.g., uppercase HCPCS codes already handled by Joi uppercase + Mongoose uppercase)
-    if (!value.dme_id) {
-      return res.status(400).json({ message: "dme_id is required" });
-    }
+    // if (!value.dme_id) {
+    //   return res.status(400).json({ message: "dme_id is required" });
+    // }
     value.status = OrderStatus.INTAKE_SUCCESSFUL;
 
     // 3) Insert into DB

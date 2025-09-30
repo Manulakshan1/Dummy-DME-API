@@ -23,7 +23,7 @@ const OrderItemSchema = new mongoose.Schema({
 }, { _id: false });
 
 const OrderSchema = new mongoose.Schema({
-  dme_id: { type: mongoose.Schema.Types.ObjectId, ref: "DME", required: true },
+  dme_id: { type: mongoose.Schema.Types.ObjectId, ref: "DME", required: false },
 
   general_information: {
     patient_id: { type: String, required: true },
