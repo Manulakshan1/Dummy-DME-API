@@ -120,4 +120,14 @@ router.get("/dme/:dmeId", authRequired, async (req, res) => {
   }
 });
 
+router.get("/", authRequired, async (req, res) => {
+  try {
+    const orders = await Order.find().lean();
+    res.json(orders);
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    res.status(500).json({ message: "Error fetching orders" });
+  }
+});
+
 export default router;
