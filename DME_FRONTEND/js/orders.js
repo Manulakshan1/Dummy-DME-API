@@ -1,4 +1,4 @@
-const API = "http://52.33.189.195:4000/api";
+const API = "http://34.214.183.199:4000/api";
 const token = localStorage.getItem("token");
 
 let allOrders = [];
