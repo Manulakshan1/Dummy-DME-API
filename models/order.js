@@ -17,6 +17,7 @@ const OrderItemSchema = new mongoose.Schema({
 
 const OrderSchema = new mongoose.Schema({
   dme_id: { type: mongoose.Schema.Types.ObjectId, ref: "DME" },
+  order_id: { type: String },
 
   general_information: {
     patient_id: String,

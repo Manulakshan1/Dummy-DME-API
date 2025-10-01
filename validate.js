@@ -1,6 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 import { OrderStatus } from "./constants/orderStatus.js";
+import order from "./models/order.js";
 
 // Extract valid keys from OrderStatus at the top
 const validStatusKeys = Object.keys(OrderStatus);
@@ -8,6 +9,7 @@ const validStatusKeys = Object.keys(OrderStatus);
 
 
 export const orderSchema = Joi.object({
+  order_id: Joi.string().optional(),
   general_information: Joi.object({
     patient_id: Joi.string().optional(),
     patient_mrn: Joi.string().optional(),

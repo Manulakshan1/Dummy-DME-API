@@ -32,10 +32,11 @@ router.post("/", authRequired, async (req, res) => {
     const order = await Order.create(value);
 
     // 4) Return created resource
-    return res.status(201).json({
-      message: "Order received",
-      order_id: order._id,
-      status: order.status
+    return res.json({
+      order_id: order.order_id,
+      status: {1040: "Order Accepted By DME"},
+      description: "Order accepted by DME",
+      timestamp: new Date().toISOString(),
     });
   } catch (err) {
     console.error("Create order error:", err);
