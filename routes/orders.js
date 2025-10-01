@@ -62,14 +62,14 @@ router.get("/:id", async (req, res) => {
 // GET /api/orders/:id/status
 router.get("/status/:id", authRequired, async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).lean();
+    const order = await Order.find({order_id: req.params.id}).lean();
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
 
     return res.json({
-      order_id: order._id,
+      order_id: order.order_id,
       status: order.status || DEFAULT_STATUS,        // original status string
     });
 
