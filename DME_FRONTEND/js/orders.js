@@ -77,7 +77,7 @@ function displayOrders() {
     const firstItem = order.items && order.items.length > 0 ? order.items[0] : null;
     
     tr.innerHTML = `
-      <td class="order-id">${order._id.substring(0, 8)}...</td>
+      <td class="order-id">${order.order_id}...</td>
       <td>${order.general_information?.patient_name || "-"}</td>
       <td>${order.general_information?.practice_name || "-"}</td>
       <td>${firstItem?.hcpcs_code || "-"}</td>
