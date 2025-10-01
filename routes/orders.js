@@ -62,7 +62,7 @@ router.get("/:id", async (req, res) => {
 // GET /api/orders/:id/status
 router.get("/status/:id", authRequired, async (req, res) => {
   try {
-    const order = await Order.find({order_id: req.params.id}).lean();
+    const order = await Order.findOne({order_id: req.params.id}).lean();
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
