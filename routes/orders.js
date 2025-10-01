@@ -26,7 +26,7 @@ router.post("/", authRequired, async (req, res) => {
     // if (!value.dme_id) {
     //   return res.status(400).json({ message: "dme_id is required" });
     // }
-    value.status = OrderStatus.INTAKE_SUCCESSFUL;
+    value.status = OrderStatus.ORDER_ACCEPTED_BY_DME;
 
     // 3) Insert into DB
     const order = await Order.create(value);
