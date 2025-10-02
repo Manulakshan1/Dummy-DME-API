@@ -70,7 +70,9 @@ router.get("/status/:id", authRequired, async (req, res) => {
 
     return res.json({
       order_id: order.order_id,
-      status: order.status || DEFAULT_STATUS,        // original status string
+      status: {[order.status.code]: order.status.message} || {[DEFAULT_STATUS.code]: DEFAULT_STATUS.message},
+      description: order.status ? order.status.message : DEFAULT_STATUS.message,
+      timestamp: new Date().toISOString(),
     });
 
   } catch (err) {
