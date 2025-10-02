@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: false, unique: true, lowercase: true, trim: true },
   passwordHash: { type: String, required: false },
-  name: { type: String }
+  name: { type: String },
+  refreshToken: { type: String, required: false }
 }, { timestamps: true });
 
 UserSchema.index({ username: 1 }, { unique: true });

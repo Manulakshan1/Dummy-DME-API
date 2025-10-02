@@ -4,7 +4,8 @@ Dummy DME-API
 - **MongoDB** database (Dockerized)
   
 ## Features
-- User authentication (Register / Login with JWT)
+- User authentication (Register / Login with JWT + Refresh Tokens)
+- Token refresh mechanism for secure session management
 - Manage DMEs (create, view, list)
 - Manage Orders (create, update status, list by DME)
 - Order status mapped to standardized codes/messages
@@ -34,9 +35,11 @@ This will start:
 
 🔑 **API Endpoints**
 **Auth**
-POST /api/auth/register → Register new user
+POST /api/auth/register → Register new user (returns JWT + refresh token)
 
-POST /api/auth/login → Login (returns JWT)
+POST /api/auth/login → Login (returns JWT + refresh token)
+
+POST /api/auth/refresh → Refresh access token using refresh token
 
 **DME**
 POST /api/dmes → Create new DME
@@ -55,3 +58,40 @@ GET /api/orders/dme/:dmeId → List orders by DME
 GET /api/orders/:id → Get order status
 
 PATCH /api/orders/:id → Update order status
+
+## Token Refresh Mechanism
+
+The API now supports JWT token refresh for enhanced security:
+
+- **Access Token**: Short-lived (15 minutes) for API requests
+- **Refresh Token**: Long-lived (7 days) for obtaining new access tokens
+- **Refresh Endpoint**: `POST /api/auth/refresh`
+
+### Usage Example:
+```bash
+# Login to get both tokens
+curl -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "user", "password": "pass"}'
+
+# Response includes both tokens:
+{
+  "message": "Logged in",
+  "token": "eyJ...", // Access token (15 min)
+  "refreshToken": "eyJ...", // Refresh token (7 days)
+  "user": {...}
+}
+
+# When access token expires, use refresh token:
+curl -X POST http://localhost:4000/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d '{"refreshToken": "eyJ..."}'
+
+# Response includes new tokens:
+{
+  "message": "Token refreshed successfully",
+  "token": "eyJ...", // New access token
+  "refreshToken": "eyJ...", // New refresh token
+  "user": {...}
+}
+```
